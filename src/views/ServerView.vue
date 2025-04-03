@@ -1,15 +1,13 @@
 <template>
-    <div class="about">
-      <h1>This is an Servers page</h1>
-    </div>
-  </template>
+  <div>Register</div>
+</template>
 
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
-  }
-  </style>
+<script lang="ts">
+export default {
+
+}
+</script>
+
+<style>
+
+</style>
