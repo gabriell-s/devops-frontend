@@ -28,9 +28,9 @@
       label="Serial Number"
     ></v-text-field>
 
-    <v-btn class="me-4" type="submit"> submit </v-btn>
+    <v-btn class="me-4" type="submit" @click="$emit('send')"> Register </v-btn>
 
-    <v-btn @click="handleReset"> cancel </v-btn>
+    <v-btn @click="handleReset, $emit('send')"> cancel </v-btn>
   </form>
 </template>
 

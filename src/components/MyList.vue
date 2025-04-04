@@ -3,7 +3,7 @@
         <h1>My List</h1>
         <ul>
         <li v-for="item in items" :key="item.id">
-            {{ item.name }}
+          Book: {{ item.book }} isnb: {{ item.isnb }} publisherDate: {{ item.publisherDate }}
         </li>
         </ul>
     </div>
@@ -12,7 +12,9 @@
 defineProps<{
   items: Array<{
     id: number;
-    name: string;
+    book: string;
+    isnb: number;
+    publisherDate: Date;
   }>;
 }>()
 </script>

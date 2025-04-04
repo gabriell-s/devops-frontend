@@ -1,22 +1,17 @@
 <template>
+  <div>teste</div>
   <main>
+    <ButtonDialog @someEvent="push_my_list"></ButtonDialog>
     <MyButton @someEvent="push_my_list" />
     <MyList :items="my_list" />
-    <MyButton @someEvent="push_my_list" />
-    <MyButton @someEvent="push_my_list" />
-    <MyButton @someEvent="push_my_list" />
-    <MyButton @someEvent="push_my_list" />
-    <MyButton @someEvent="push_my_list" />
-    <MyButton @someEvent="push_my_list" />
-    <MyList :items="my_list" />
-    <TheWelcome />
+
   </main>
 </template>
 
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
 import MyButton from '../components/MyButton.vue'
 import MyList from '../components/MyList.vue'
+import ButtonDialog from '@/components/ButtonDialog.vue'
 
 import { ref } from 'vue'
 
