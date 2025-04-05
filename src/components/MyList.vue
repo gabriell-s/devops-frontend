@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>My List</h1>
         <ul>
         <li v-for="item in items" :key="item.id">
           Book: {{ item.book }} isnb: {{ item.isnb }} publisherDate: {{ item.publisherDate }}

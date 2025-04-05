@@ -3,12 +3,25 @@
     class="mx-auto"
     max-width="300"
   >
-    <v-list :items="items"></v-list>
+        <ul>
+        <li v-for="item in items" :key="item.id">
+          Book: {{ item.book }} isnb: {{ item.isnb }} publisherDate: {{ item.publisherDate }}
+        </li>
+        </ul>
   </v-card>
 </template>
 
-<script setup>
-  const items = [
+<script setup lang="ts">
+defineProps<{
+  items: Array<{
+    id: number;
+    book: string;
+    isnb: number;
+    publisherDate: number;
+  }>;
+}>()
+
+  /* const items = [
     {
       title: 'Item #1',
       value: 1,
@@ -30,5 +43,5 @@
         color: 'primary',
       },
     },
-  ]
+  ]*/
 </script>
