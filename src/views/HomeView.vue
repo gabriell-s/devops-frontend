@@ -3,7 +3,7 @@
     <!-- Título da página -->
     <v-row justify="center" class="mb-8">
       <v-col cols="12" md="8" class="text-center">
-        <h1 class="text-h4 font-weight-bold page-title">Acess Books</h1>
+        <h1 class="text-h4 font-weight-bold page-title">📚 Acess Books</h1>
         <p class="text-body-1 subtitle">Enter or Register your Book</p>
       </v-col>
     </v-row>
@@ -18,13 +18,24 @@
     <!-- Lista de livros -->
     <v-row justify="center">
       <v-col cols="12" md="10">
-        <v-card elevation="3" class="book-card">
-          <v-card-title class="bg-primary text-white">
-            <span class="text-h6">Books list</span>
+        <v-card elevation="4" class="book-card">
+          <v-card-title class="bg-primary text-white d-flex align-center">
+            <v-icon class="mr-2">mdi-book-multiple</v-icon>
+            <span class="text-h6">Books List</span>
           </v-card-title>
+
+          <v-divider></v-divider>
+
           <v-card-text>
-            <!--<MyList :items="my_list" />-->
-            <ListBook :items="my_list" />
+            <div v-if="my_list.length">
+              <transition-group name="fade" tag="div">
+                <ListBook :items="my_list" :key="my_list.length" />
+              </transition-group>
+            </div>
+            <div v-else class="text-center text-grey py-6">
+              <v-icon size="40" class="mb-2" color="grey">mdi-book-open-variant</v-icon>
+              <div>No books registered yet. Click "Register" to get started.</div>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -33,39 +44,41 @@
 </template>
 
 <script setup lang="ts">
-import MyList from '../components/MyList.vue'
 import ButtonDialog from '@/components/ButtonDialog.vue'
 import ListBook from '@/components/ListBook.vue'
-
 import { ref } from 'vue'
 
-const my_list = ref<{ id: number; book: string; edition: number; isnb: number; publisherDate: number }[]>([])
+const my_list = ref<
+  { id: number; name: string; edition: number; isbn: number; publisherDate: number }[]
+>([])
 const a = ref(0)
 
 function push_my_list(formData: {
-  book: string
+  name: string
   edition: number
   isbn: number
   description?: string
+  publisherDate?: string
 }) {
-  a.value += 1
+  console.log('📥 Dados recebidos:', formData)
 
+  a.value += 1
   my_list.value.push({
     id: a.value,
-    book: formData.book,
+    name: formData.name,
     edition: formData.edition,
     isbn: formData.isbn,
-    publisherDate: new Date().getFullYear()
+    publisherDate: Number(formData.publisherDate) || new Date().getFullYear(),
   })
 
-  console.log('Event triggered!')
-  console.log('my_list', my_list.value)
+  console.log('✅ Livro adicionado!', my_list.value)
 }
 </script>
 
 <style scoped>
 .page-title {
   color: #2e2e2e;
+  letter-spacing: 0.5px;
 }
 
 .subtitle {
@@ -76,5 +89,20 @@ function push_my_list(formData: {
 .book-card {
   border-radius: 16px;
   overflow: hidden;
+  background-color: #fafafa;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
