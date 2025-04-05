@@ -1,11 +1,12 @@
 <template>
-<main></main>
+<main>
+
+</main>
   <RouterView />
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import ButtonDialog from '@/components/ButtonDialog.vue';
 </script>
 
 <style scoped>
