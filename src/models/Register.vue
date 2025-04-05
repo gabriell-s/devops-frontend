@@ -28,7 +28,14 @@
       label="Serial Number"
     ></v-text-field>
 
-    <v-btn class="me-4" type="submit"> Register </v-btn>
+    <v-text-field
+      v-model="publisherDate.value.value"
+      :error-messages="publisherDate.errorMessage.value"
+      :counter="13"
+      label="Publisher Date"
+    ></v-text-field>
+
+    <v-btn class="me-4" type="submit" @click="$emit('send')"> Register </v-btn>
 
     <v-btn @click="handleReset, $emit('send')"> cancel </v-btn>
   </form>
@@ -56,17 +63,23 @@ const { handleSubmit, handleReset } = useForm({
 
       return 'Serial Number needs to be at least 1 character.'
     },
+    publisherDate(value) {
+      if (value?.length) return true
+    },
   },
 })
 const book = useField('book')
 const description = useField('description')
 const edition = useField('edition')
 const isbn = useField('isbn')
+const publisherDate = useField('publisherDate')
+
 
 const emit = defineEmits(['submit'])
 
 const submit = handleSubmit((values) => {
-  alert(JSON.stringify(values, null, 2))
+  JSON.stringify(values, null, 2)
+  //alert(JSON.stringify(values, null, 2))
   emit('submit', values)
 })
 </script>

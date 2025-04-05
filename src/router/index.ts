@@ -15,19 +15,14 @@ const router = createRouter({
           component: () => import('../views/HomeView.vue'),
         },
         {
-          path: '/register',
-          name: 'register',
-          component: () => import('../models/Register.vue'),
-        },
-        {
-          path: '/server',
-          name: 'server',
-          component: () => import('../views/ServerView.vue'),
-        },
-        {
           path: '/book',
           name: 'book',
-          component: () => import('../views/BookView.vue'),
+          component: () => import('../views/BookList.vue')
+        },
+        {
+          path: '/book/edit',
+          name: 'editbook',
+          component: () => import('../views/EditBook.vue')
         },
       ]
     },
@@ -36,11 +31,6 @@ const router = createRouter({
       name: 'dash',
       component: () => import('../templates/Blank.vue')
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
-    }
   ],
 })
 

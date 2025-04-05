@@ -2,9 +2,7 @@
   <v-app>
     <v-app-bar app>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/register">Register</RouterLink>
       <RouterLink to="/book">Books</RouterLink>
-      <RouterLink to="/server">Servers</RouterLink>
     </v-app-bar>
     <v-main>
       <div id="container">
@@ -15,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import BookView from '@/views/BookView.vue';
+import BookView from '@/views/IndexView.vue';
 </script>
 <style>
   .container {

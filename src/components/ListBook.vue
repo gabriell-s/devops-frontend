@@ -1,13 +1,21 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="300"
-  >
-        <ul>
-        <li v-for="item in items" :key="item.id">
-          Book: {{ item.book }} isnb: {{ item.isnb }} publisherDate: {{ item.publisherDate }}
-        </li>
-        </ul>
+  <v-card class="mx-auto" max-width="500">
+    <v-list>
+      <v-list-item
+        v-for="item in items"
+        :key="item.id"
+        :title="item.book"
+        :subtitle="`Edition: ${item.edition} | ISBN: ${item.isnb} | Published Date: ${item.publisherDate}`"
+        v-bind="item.props"
+      >
+        <template #prepend>
+          <v-icon v-if="item.props?.prependIcon">{{ item.props.prependIcon }}</v-icon>
+        </template>
+        <template #append>
+          <v-icon v-if="item.props?.appendIcon">{{ item.props.appendIcon }}</v-icon>
+        </template>
+      </v-list-item>
+    </v-list>
   </v-card>
 </template>
 
@@ -16,32 +24,15 @@ defineProps<{
   items: Array<{
     id: number;
     book: string;
-    isnb: number;
+    edition: string;
+    isnb: string;
     publisherDate: number;
-  }>;
+    props?: {
+      prependIcon?: string;
+      appendIcon?: string;
+      color?: string;
+    };
+  }>
 }>()
-
-  /* const items = [
-    {
-      title: 'Item #1',
-      value: 1,
-      props: {
-        prependIcon: 'mdi-home',
-      },
-    },
-    {
-      title: 'Item #2',
-      value: 2,
-      props: {
-        appendIcon: 'mdi-close',
-      },
-    },
-    {
-      title: 'Item #3',
-      value: 3,
-      props: {
-        color: 'primary',
-      },
-    },
-  ]*/
 </script>
+

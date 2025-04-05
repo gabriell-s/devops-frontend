@@ -3,8 +3,8 @@
     <!-- Título da página -->
     <v-row justify="center" class="mb-8">
       <v-col cols="12" md="8" class="text-center">
-        <h1 class="text-h4 font-weight-bold page-title">Cadastro de Livros</h1>
-        <p class="text-body-1 subtitle">Adicione e visualize livros na sua lista personalizada.</p>
+        <h1 class="text-h4 font-weight-bold page-title">Acess Books</h1>
+        <p class="text-body-1 subtitle">Enter or Register your Book</p>
       </v-col>
     </v-row>
 
@@ -12,7 +12,6 @@
     <v-row justify="center" class="mb-6">
       <v-col cols="12" md="6" class="text-center">
         <ButtonDialog @submitRegister="push_my_list" />
-        <MyButton @someEvent="push_my_list" class="ml-4" />
       </v-col>
     </v-row>
 
@@ -21,7 +20,7 @@
       <v-col cols="12" md="10">
         <v-card elevation="3" class="book-card">
           <v-card-title class="bg-primary text-white">
-            <span class="text-h6">Lista de Livros Cadastrados</span>
+            <span class="text-h6">Books list</span>
           </v-card-title>
           <v-card-text>
             <!--<MyList :items="my_list" />-->
@@ -34,20 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import MyButton from '../components/MyButton.vue'
 import MyList from '../components/MyList.vue'
 import ButtonDialog from '@/components/ButtonDialog.vue'
 import ListBook from '@/components/ListBook.vue'
 
 import { ref } from 'vue'
 
-const my_list = ref<{ id: number; book: string; edition: string; isnb: number; publisherDate: number }[]>([])
+const my_list = ref<{ id: number; book: string; edition: number; isnb: number; publisherDate: number }[]>([])
 const a = ref(0)
 
 function push_my_list(formData: {
   book: string
-  edition: string
-  isbn: string
+  edition: number
+  isbn: number
   description?: string
 }) {
   a.value += 1
@@ -56,7 +54,7 @@ function push_my_list(formData: {
     id: a.value,
     book: formData.book,
     edition: formData.edition,
-    isnb: parseInt(formData.isbn),
+    isnb: formData.isbn,
     publisherDate: new Date().getFullYear()
   })
 

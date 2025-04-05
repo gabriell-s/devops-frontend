@@ -21,13 +21,13 @@
 <script setup>
   import { ref } from 'vue'
   import Register from '@/models/Register.vue';
-import { emit } from 'process';
+  import { emit } from 'process';
   const dialog = ref(false)
 
   const emitDialog = defineEmits(['submitRegister'])
 
   const dadosRecebidos = (dados) => {
-    alert('dados recebidos', dados)
+    //alert('dados recebidos', dados)
     emitDialog('submitRegister', dados)
   }
 

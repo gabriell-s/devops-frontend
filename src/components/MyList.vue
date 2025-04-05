@@ -12,7 +12,7 @@ defineProps<{
   items: Array<{
     id: number;
     book: string;
-    isnb: number;
+    isnb: string;
     publisherDate: number;
   }>;
 }>()
