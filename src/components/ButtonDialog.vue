@@ -1,34 +1,39 @@
 <template>
   <div class="text-center pa-4">
-    <v-btn @click="dialog = true">
-      Register
-    </v-btn>
+    <v-btn @click="dialog = true"> Register </v-btn>
 
-    <v-dialog
-      v-model="dialog"
-      width="auto"
-    >
-      <v-card
+    <v-dialog v-model="dialog" width="auto">
+      <v-card>
+        <v-card-title class="text-h5"> Register a book </v-card-title>
+        <v-card-text>
+          <Register v-model="book" type="submitRegister"></Register>
+        </v-card-text>
 
-      >
-      <Register type="submitRegister" @submit="dadosRecebidos" @send="dialog = false, $emit('someEvent')"></Register>
-
+        <v-card-actions>
+          <v-btn @click="handleSubmit" color="primary"> Register </v-btn>
+          <v-btn @click="dialog = false" color="error"> Cancelar </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
 
-<script setup>
-  import { ref } from 'vue'
-  import Register from '@/models/Register.vue';
-  import { emit } from 'process';
-  const dialog = ref(false)
+<script setup lang="ts">
+import { ref } from 'vue'
+import Register from '@/models/Register.vue'
 
-  const emitDialog = defineEmits(['submitRegister'])
+const book = ref({
+  name: '',
+  description: '',
+  edition: '',
+  isbn: '',
+  publisherDate: '',
+})
+const dialog = ref(false)
+const emit = defineEmits(['submitRegister'])
 
-  const dadosRecebidos = (dados) => {
-    //alert('dados recebidos', dados)
-    emitDialog('submitRegister', dados)
-  }
-
+function handleSubmit() {
+  console.log('📚 Livro registrado:', { ...book.value })
+  emit('submitRegister', { ...book.value })
+}
 </script>
