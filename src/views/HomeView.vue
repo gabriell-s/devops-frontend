@@ -54,7 +54,7 @@ function push_my_list(formData: {
     id: a.value,
     book: formData.book,
     edition: formData.edition,
-    isnb: formData.isbn,
+    isbn: formData.isbn,
     publisherDate: new Date().getFullYear()
   })
 
