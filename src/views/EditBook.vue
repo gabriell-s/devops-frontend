@@ -16,8 +16,6 @@
           <v-card-title class="pb-6 text-center">
           </v-card-title>
         </div>
-      </v-img>
-
       <v-list lines="two">
         <v-list-item>
           <template v-slot:prepend>
