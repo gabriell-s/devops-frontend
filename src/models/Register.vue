@@ -2,10 +2,10 @@
 <template>
   <form @submit.prevent="submit">
     <v-text-field
-      v-model="name.value.value"
+      v-model="book.value.value"
       :counter="255"
-      :error-messages="name.errorMessage.value"
-      label="Name"
+      :error-messages="book.errorMessage.value"
+      label="Book"
     ></v-text-field>
 
     <v-text-field
@@ -28,7 +28,7 @@
       label="Serial Number"
     ></v-text-field>
 
-    <v-btn class="me-4" type="submit" @click="$emit('send')"> Register </v-btn>
+    <v-btn class="me-4" type="submit"> Register </v-btn>
 
     <v-btn @click="handleReset, $emit('send')"> cancel </v-btn>
   </form>
@@ -41,7 +41,7 @@ import { useField, useForm } from 'vee-validate'
 
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
-    name(value) {
+    book(value) {
       if (value?.length) return true
 
       return 'Name needs to be at least 1 character.'
@@ -58,12 +58,16 @@ const { handleSubmit, handleReset } = useForm({
     },
   },
 })
-const name = useField('name')
+const book = useField('book')
 const description = useField('description')
 const edition = useField('edition')
 const isbn = useField('isbn')
 
+const emit = defineEmits(['submit'])
+
 const submit = handleSubmit((values) => {
   alert(JSON.stringify(values, null, 2))
+  emit('submit', values)
 })
 </script>
+

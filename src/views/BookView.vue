@@ -1,7 +1,5 @@
 <template>
-  <header>
-  </header>
-  <ButtonDialog></ButtonDialog>
+<main></main>
   <RouterView />
 </template>
 

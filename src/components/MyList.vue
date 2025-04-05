@@ -14,7 +14,7 @@ defineProps<{
     id: number;
     book: string;
     isnb: number;
-    publisherDate: Date;
+    publisherDate: number;
   }>;
 }>()
 </script>
