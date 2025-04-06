@@ -12,6 +12,7 @@
     <v-row justify="center" class="mb-6">
       <v-col cols="12" md="6" class="text-center">
         <DialogBook @submitRegister="add_book" />
+        <v-btn color="primary" class="mt-4" @click="fetchBooks"> Refresh Books </v-btn>
       </v-col>
     </v-row>
 
@@ -27,15 +28,33 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <div v-if="bookStore.books.length">
-              <transition-group name="fade" tag="div">
-                <ListBook :items="bookStore.books" :key="bookStore.books.length" />
-              </transition-group>
-            </div>
-            <div v-else class="text-center text-grey py-6">
-              <v-icon size="40" class="mb-2" color="grey">mdi-book-open-variant</v-icon>
-              <div>No books registered yet. Click "Register" to get started.</div>
-            </div>
+            <v-card-text
+              ><v-card-text>
+                <div v-if="bookStore.loading" class="text-center py-6">
+                  <v-progress-circular indeterminate color="primary" size="40" />
+                  <div class="mt-2 text-caption text-grey">Carregando livros...</div>
+                </div>
+
+                <div v-else-if="bookStore.books.length">
+                  <ListBook :items="bookStore.books" />
+                </div>
+
+                <div v-else class="text-center text-grey py-6">
+                  <v-icon size="40" class="mb-2" color="grey">mdi-book-open-variant</v-icon>
+                  <div>Nenhum livro cadastrado.</div>
+                </div>
+
+                <v-alert
+                  v-if="bookStore.error"
+                  type="error"
+                  class="mt-4"
+                  border="start"
+                  color="error"
+                >
+                  {{ bookStore.error }}
+                </v-alert>
+              </v-card-text>
+            </v-card-text>
           </v-card-text>
         </v-card>
       </v-col>
@@ -47,24 +66,29 @@
 import DialogBook from '@/components/books/DialogBook.vue'
 import ListBook from '@/components/books/ListBook.vue'
 import { useBookStore } from '@/stores/bookStore'
+import { onMounted } from 'vue'
+import type { Book } from '@/models/Book'
 
 const bookStore = useBookStore()
 
-async function add_book(formData: {
-  name: string
-  edition: number
-  isbn: number
-  description?: string
-  publisherDate?: string
-}) {
-  console.log('📥 Dados recebidos:', formData)
+onMounted(async () => {
+  await fetchBooks()
+})
+
+async function fetchBooks() {
+  console.log('Fetching books...')
+  bookStore.fetchBooks()
+}
+
+async function add_book(book: Omit<Book, 'id'>) {
+  console.log('📥 Dados recebidos:', book)
 
   await bookStore.addBook({
-    name: formData.name,
-    edition: formData.edition,
-    isbn: formData.isbn,
-    description: formData.description,
-    publisherDate: Number(formData.publisherDate) || new Date().getFullYear(),
+    name: book.name,
+    edition: book.edition,
+    isbn: book.isbn,
+    description: book.description,
+    publisherDate: Number(book.publisherDate) || new Date().getFullYear(),
   })
 
   console.log('✅ Livro adicionado!', bookStore.books)
