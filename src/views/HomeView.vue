@@ -11,7 +11,7 @@
     <!-- Seção de ações -->
     <v-row justify="center" class="mb-6">
       <v-col cols="12" md="6" class="text-center">
-        <DialogBook @submitRegister="push_my_list" />
+        <DialogBook @submitRegister="add_book" />
       </v-col>
     </v-row>
 
@@ -27,9 +27,9 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <div v-if="my_list.length">
+            <div v-if="bookStore.books.length">
               <transition-group name="fade" tag="div">
-                <ListBook :items="my_list" :key="my_list.length" />
+                <ListBook :items="bookStore.books" :key="bookStore.books.length" />
               </transition-group>
             </div>
             <div v-else class="text-center text-grey py-6">
@@ -46,14 +46,11 @@
 <script setup lang="ts">
 import DialogBook from '@/components/books/DialogBook.vue'
 import ListBook from '@/components/books/ListBook.vue'
-import { ref } from 'vue'
+import { useBookStore } from '@/stores/bookStore'
 
-const my_list = ref<
-  { id: number; name: string; edition: number; isbn: number; publisherDate: number }[]
->([])
-const a = ref(0)
+const bookStore = useBookStore()
 
-function push_my_list(formData: {
+async function add_book(formData: {
   name: string
   edition: number
   isbn: number
@@ -62,16 +59,15 @@ function push_my_list(formData: {
 }) {
   console.log('📥 Dados recebidos:', formData)
 
-  a.value += 1
-  my_list.value.push({
-    id: a.value,
+  await bookStore.addBook({
     name: formData.name,
     edition: formData.edition,
     isbn: formData.isbn,
+    description: formData.description,
     publisherDate: Number(formData.publisherDate) || new Date().getFullYear(),
   })
 
-  console.log('✅ Livro adicionado!', my_list.value)
+  console.log('✅ Livro adicionado!', bookStore.books)
 }
 </script>
 
