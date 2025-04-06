@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Register from '@/models/Register.vue'
+import Register from '@/components/books/RegisterBook.vue'
 
 const book = ref({
   name: '',
