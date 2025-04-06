@@ -1,25 +1,25 @@
 <template>
   <v-row dense>
-    <v-col v-for="item in items" :key="item.id" cols="12" sm="6" md="4" lg="3">
-      <v-card
-        :color="item.props?.color || 'surface'"
-        class="elevation-3 rounded-xl d-flex flex-column h-100"
-      >
+    <v-col v-for="item in items" :key="item.public_id" cols="12" sm="6" md="4" lg="3">
+      <v-card color="surface" class="elevation-3 rounded-xl d-flex flex-column h-100">
         <!-- Imagem ou skeleton -->
         <v-skeleton-loader type="image" height="160px" class="rounded-t-xl" />
 
         <!-- Título -->
         <v-card-title class="py-2 d-flex align-center">
-          <v-icon v-if="item.props?.prependIcon" class="mr-2" color="primary">
-            {{ item.props.prependIcon }}
-          </v-icon>
+          <v-icon class="mr-2" size="x-small"> mdi-book-open-variant </v-icon>
           <span class="text-subtitle-1 font-weight-medium">
             {{ item.name }}
           </span>
           <v-spacer />
-          <v-icon v-if="item.props?.appendIcon" class="ml-2" color="grey-darken-1">
-            {{ item.props.appendIcon }}
-          </v-icon>
+          <v-btn
+            icon="mdi-pencil"
+            variant="text"
+            class="ml-2"
+            size="x-small"
+            @click="editBook(item)"
+          >
+          </v-btn>
         </v-card-title>
 
         <!-- Informações -->
@@ -33,7 +33,7 @@
         <!-- Publicação -->
         <v-card-text class="pt-0 text-body-2 text-grey-darken-1">
           <v-icon icon="mdi-calendar" class="mr-1" size="18" color="deep-orange" />
-          Published: {{ item.publisherDate }}
+          Published: {{ item.publication_date }}
         </v-card-text>
       </v-card>
     </v-col>
@@ -41,18 +41,16 @@
 </template>
 
 <script setup lang="ts">
+import { defineEmits } from 'vue'
+import type { Book } from '@/models/Book'
 defineProps<{
-  items: Array<{
-    id: number
-    name: string
-    edition: string
-    isbn: string
-    publisherDate: number
-    props?: {
-      prependIcon?: string
-      appendIcon?: string
-      color?: string
-    }
-  }>
+  items: Array<Book>
 }>()
+const emit = defineEmits(['editBook'])
+
+const editBook = (book: Book) => {
+  console.log('Editing book:', book)
+  emit('editBook', book)
+  // Add your logic to handle book editing here
+}
 </script>

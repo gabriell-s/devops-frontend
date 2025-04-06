@@ -2,47 +2,47 @@
   <v-form>
     <v-container>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-text-field
-            v-model="localModel.name"
+            v-model="book.name"
             :counter="255"
             :error-messages="errors.name"
             label="Name"
           />
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-text-field
-            v-model="localModel.description"
-            :error-messages="errors.description"
-            label="Description"
-          />
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-text-field
-            v-model="localModel.edition"
+            v-model="book.edition"
             :counter="100"
             :error-messages="errors.edition"
             label="Edition"
           />
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-text-field
-            v-model="localModel.isbn"
+            v-model="book.isbn"
             :error-messages="errors.isbn"
             :counter="13"
             label="Serial Number"
           />
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-text-field
-            v-model="localModel.publisherDate"
-            :error-messages="errors.publisherDate"
+            v-model="book.publication_date"
+            :error-messages="errors.publication_date"
             label="Publisher Date"
           />
+        </v-col>
+        <v-col cols="12" md="12">
+          <v-textarea
+            label="Description"
+            v-model="book.description"
+            :error-messages="errors.description"
+            auto-grow
+          ></v-textarea>
         </v-col>
       </v-row>
     </v-container>
@@ -58,18 +58,18 @@ const props = defineProps<{
     description: string
     edition: string
     isbn: string
-    publisherDate: string
+    publication_date: string
   }
 }>()
 
 const emit = defineEmits(['update:modelValue'])
 
 // Criamos uma cópia reativa local para editar
-const localModel = reactive({ ...props.modelValue })
+const book = reactive({ ...props.modelValue })
 
 // Emitir sempre que algo mudar
 watch(
-  () => ({ ...localModel }),
+  () => ({ ...book }),
   (val) => {
     emit('update:modelValue', val)
   },
@@ -81,6 +81,6 @@ const errors = reactive({
   description: '',
   edition: '',
   isbn: '',
-  publisherDate: '',
+  publication_date: '',
 })
 </script>

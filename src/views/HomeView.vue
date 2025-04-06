@@ -1,5 +1,9 @@
 <template>
   <v-container class="py-10">
+    <v-overlay v-model="loading" class="d-flex justify-center align-center" absolute>
+      <v-progress-circular indeterminate color="primary" size="64" />
+    </v-overlay>
+
     <!-- Título da página -->
     <v-row justify="center" class="mb-8">
       <v-col cols="12" md="8" class="text-center">
@@ -11,7 +15,11 @@
     <!-- Seção de ações -->
     <v-row justify="center" class="mb-6">
       <v-col cols="12" md="6" class="text-center">
-        <ButtonDialog @submitRegister="push_my_list" />
+        <DialogBook
+          v-model:visible="isDialogVisible"
+          :book="selectedBook"
+          @submitRegister="addBook"
+        />
       </v-col>
     </v-row>
 
@@ -22,20 +30,25 @@
           <v-card-title class="bg-primary text-white d-flex align-center">
             <v-icon class="mr-2">mdi-book-multiple</v-icon>
             <span class="text-h6">Books List</span>
+            <v-spacer></v-spacer>
+            <v-btn icon="mdi-refresh" variant="text" @click="fetchBooks"> </v-btn>
+            <v-btn icon="mdi-plus" variant="text" @click="openBookDialog"></v-btn>
           </v-card-title>
 
           <v-divider></v-divider>
 
           <v-card-text>
-            <div v-if="my_list.length">
-              <transition-group name="fade" tag="div">
-                <ListBook :items="my_list" :key="my_list.length" />
-              </transition-group>
-            </div>
-            <div v-else class="text-center text-grey py-6">
-              <v-icon size="40" class="mb-2" color="grey">mdi-book-open-variant</v-icon>
-              <div>No books registered yet. Click "Register" to get started.</div>
-            </div>
+            <v-card-text
+              ><v-card-text>
+                <div v-if="bookStore.books.length">
+                  <ListBook :items="bookStore.books" @editBook="openBookDialog" />
+                </div>
+                <div v-else class="text-center text-grey py-6">
+                  <v-icon size="40" class="mb-2" color="grey">mdi-book-open-variant</v-icon>
+                  <div>Nenhum livro cadastrado.</div>
+                </div>
+              </v-card-text>
+            </v-card-text>
           </v-card-text>
         </v-card>
       </v-col>
@@ -44,65 +57,73 @@
 </template>
 
 <script setup lang="ts">
-import ButtonDialog from '@/components/ButtonDialog.vue'
-import ListBook from '@/components/ListBook.vue'
 import { ref } from 'vue'
+import DialogBook from '@/components/books/DialogBook.vue'
+import ListBook from '@/components/books/ListBook.vue'
+import { useBookStore } from '@/stores/bookStore'
+import { onMounted } from 'vue'
+import type { Book } from '@/models/Book'
+import { extractBackendError } from '@/utils/errorHandler'
 
-const my_list = ref<
-  { id: number; name: string; edition: number; isbn: number; publisherDate: number }[]
->([])
-const a = ref(0)
+onMounted(async () => {
+  await fetchBooks()
+})
+const loading = ref(false)
 
-function push_my_list(formData: {
-  name: string
-  edition: number
-  isbn: number
-  description?: string
-  publisherDate?: string
-}) {
-  console.log('📥 Dados recebidos:', formData)
+const bookStore = useBookStore()
 
-  a.value += 1
-  my_list.value.push({
-    id: a.value,
-    name: formData.name,
-    edition: formData.edition,
-    isbn: formData.isbn,
-    publisherDate: Number(formData.publisherDate) || new Date().getFullYear(),
-  })
+import { useNotificationStore } from '@/stores/notificationStore'
 
-  console.log('✅ Livro adicionado!', my_list.value)
+const notification = useNotificationStore()
+
+const fetchBooks = async () => {
+  loading.value = true
+  try {
+    await bookStore.fetchBooks()
+  } catch (err: any) {
+    notification.showError(err)
+  } finally {
+    setTimeout(() => {
+      loading.value = false
+    }, 1000)
+  }
+}
+
+const addBook = async (book: Omit<Book, 'id'>) => {
+  loading.value = true
+  try {
+    if (book.public_id) {
+      await bookStore.editBook(book)
+      notification.showSuccess('Livro atualizado com sucesso!')
+      return
+    } else {
+      await bookStore.addBook(book)
+      notification.showSuccess('Livro adicionado com sucesso!')
+    }
+  } catch (err: any) {
+    const parsed = extractBackendError(err)
+    notification.showError(parsed.message)
+  } finally {
+    loading.value = false
+  }
+}
+
+const isDialogVisible = ref(false)
+const selectedBook = ref<Book | null>(null)
+
+const openBookDialog = (book?: Book) => {
+  if (book) {
+    selectedBook.value = book
+  } else {
+    selectedBook.value = {
+      public_id: '',
+      name: '',
+      description: '',
+      edition: '',
+      isbn: '',
+      publication_date: '',
+    }
+  }
+  isDialogVisible.value = true
 }
 </script>
-
-<style scoped>
-.page-title {
-  color: #2e2e2e;
-  letter-spacing: 0.5px;
-}
-
-.subtitle {
-  color: #6c757d;
-  margin-top: 4px;
-}
-
-.book-card {
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: #fafafa;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.4s ease;
-}
-
-.fade-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>
