@@ -31,6 +31,22 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
+    <!-- Snackbar global -->
+    <v-snackbar
+      v-model="notification.visible"
+      :color="notification.color"
+      timeout="4000"
+      location="top"
+    >
+      {{ notification.message }}
+      <template #actions>
+        <v-btn icon @click="notification.hide()">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </template>
+    </v-snackbar>
+
     <v-main>
       <div id="container">
         <book-view></book-view>
@@ -42,16 +58,15 @@
 <script setup lang="ts">
 import BookView from '@/views/IndexView.vue'
 import { useRouter } from 'vue-router'
-
 import { ref } from 'vue'
+import { useNotificationStore } from '@/stores/notificationStore'
 
-const drawer = ref(false) // começa fechado
+const drawer = ref(false)
 const router = useRouter()
+const notification = useNotificationStore()
 
 function goTo(to: string) {
-  router.push({
-    path: to,
-  })
+  router.push({ path: to })
 }
 </script>
 <style>
