@@ -41,10 +41,10 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
-  async function deleteBook(bookId: number) {
+  async function deleteBook(book: Book) {
     try {
-      await bookService.deleteBook(bookId)
-      books.value = books.value.filter((book) => book.id !== bookId)
+      await bookService.deleteBook(book)
+      books.value = books.value.filter((b) => b.public_id !== book.public_id)
     } catch (err) {
       console.error(err)
       throw extractBackendError(err, 'Erro ao deletar livro.')

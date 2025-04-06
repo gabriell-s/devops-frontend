@@ -1,6 +1,6 @@
 <template>
   <v-row dense>
-    <v-col v-for="item in items" :key="item.id" cols="12" sm="6" md="4" lg="3">
+    <v-col v-for="item in items" :key="item.public_id" cols="12" sm="6" md="4" lg="3">
       <v-card color="surface" class="elevation-3 rounded-xl d-flex flex-column h-100">
         <!-- Imagem ou skeleton -->
         <v-skeleton-loader type="image" height="160px" class="rounded-t-xl" />
