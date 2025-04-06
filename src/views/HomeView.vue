@@ -32,7 +32,7 @@
             <span class="text-h6">Books List</span>
             <v-spacer></v-spacer>
             <v-btn icon="mdi-refresh" variant="text" @click="fetchBooks"> </v-btn>
-            <v-btn icon="mdi-plus" variant="text" @click="isDialogVisible = true"></v-btn>
+            <v-btn icon="mdi-plus" variant="text" @click="openBookDialog"></v-btn>
           </v-card-title>
 
           <v-divider></v-divider>
@@ -111,8 +111,19 @@ const addBook = async (book: Omit<Book, 'id'>) => {
 const isDialogVisible = ref(false)
 const selectedBook = ref<Book | null>(null)
 
-const openBookDialog = (book: Book) => {
-  selectedBook.value = book
+const openBookDialog = (book?: Book) => {
+  if (book) {
+    selectedBook.value = book
+  } else {
+    selectedBook.value = {
+      public_id: '',
+      name: '',
+      description: '',
+      edition: '',
+      isbn: '',
+      publication_date: '',
+    }
+  }
   isDialogVisible.value = true
 }
 </script>
