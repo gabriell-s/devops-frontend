@@ -12,9 +12,6 @@
       <!-- Botões de navegação à direita -->
       <template v-slot:append>
         <v-btn icon @click="goTo('/')">
-          <v-icon>mdi-home</v-icon>
-        </v-btn>
-        <v-btn icon @click="goTo('/book')">
           <v-icon>mdi-book</v-icon>
         </v-btn>
       </template>
@@ -24,9 +21,6 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list>
         <v-list-item @click="goTo('/')">
-          <v-list-item-title>Home</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="goTo('/book')">
           <v-list-item-title>Books</v-list-item-title>
         </v-list-item>
       </v-list>
