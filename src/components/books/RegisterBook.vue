@@ -39,8 +39,8 @@
 
         <v-col cols="12" md="4">
           <v-text-field
-            v-model="localModel.publisherDate"
-            :error-messages="errors.publisherDate"
+            v-model="localModel.publication_date"
+            :error-messages="errors.publication_date"
             label="Publisher Date"
           />
         </v-col>
@@ -58,7 +58,7 @@ const props = defineProps<{
     description: string
     edition: string
     isbn: string
-    publisherDate: string
+    publication_date: string
   }
 }>()
 
@@ -81,6 +81,6 @@ const errors = reactive({
   description: '',
   edition: '',
   isbn: '',
-  publisherDate: '',
+  publication_date: '',
 })
 </script>

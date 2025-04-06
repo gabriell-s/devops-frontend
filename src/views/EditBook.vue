@@ -1,10 +1,6 @@
 <template>
   <div class="d-flex flex-row align-start container">
-    <v-img
-      class="text-white image-box"
-      src="https://cdn.vuetifyjs.com/images/lists/ali.png"
-      cover
-    >
+    <v-img class="text-white image-box" src="https://cdn.vuetifyjs.com/images/lists/ali.png" cover>
     </v-img>
 
     <v-card class="mx-4 info-box">
@@ -72,7 +68,7 @@
             </v-avatar>
           </template>
           <v-list-item-title>Published Date</v-list-item-title>
-          <v-list-item-subtitle><!-- {{ item.publisherDate }} --></v-list-item-subtitle>
+          <v-list-item-subtitle><!-- {{ item.publication_date }} --></v-list-item-subtitle>
         </v-list-item>
       </v-list>
     </v-card>
@@ -80,23 +76,22 @@
 </template>
 <style scoped>
 template {
-padding: 0;
-margin: 0;
-border: 0;
-
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
 .image-box {
-width: 600px;
-height: 100%;
-border-radius: 12px;
-overflow: hidden;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 600px;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .info-box {
-max-width: 400px;
-width: 100%;
-border-radius: 12px;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

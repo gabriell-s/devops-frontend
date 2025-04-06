@@ -27,7 +27,7 @@ const book = ref({
   description: '',
   edition: '',
   isbn: '',
-  publisherDate: '',
+  publication_date: '',
 })
 const dialog = ref(false)
 const emit = defineEmits(['submitRegister'])

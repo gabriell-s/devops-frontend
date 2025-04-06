@@ -3,6 +3,6 @@ export interface Book {
   name: string
   edition: number
   isbn: number
-  publisherDate: number
+  publication_date: number
   description?: string
 }

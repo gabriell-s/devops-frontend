@@ -33,7 +33,7 @@
         <!-- Publicação -->
         <v-card-text class="pt-0 text-body-2 text-grey-darken-1">
           <v-icon icon="mdi-calendar" class="mr-1" size="18" color="deep-orange" />
-          Published: {{ item.publisherDate }}
+          Published: {{ item.publication_date }}
         </v-card-text>
       </v-card>
     </v-col>
@@ -47,7 +47,7 @@ defineProps<{
     name: string
     edition: string
     isbn: string
-    publisherDate: number
+    publication_date: number
     props?: {
       prependIcon?: string
       appendIcon?: string
