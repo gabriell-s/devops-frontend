@@ -11,7 +11,7 @@
     <!-- Seção de ações -->
     <v-row justify="center" class="mb-6">
       <v-col cols="12" md="6" class="text-center">
-        <ButtonDialog @submitRegister="push_my_list" />
+        <DialogBook @submitRegister="push_my_list" />
       </v-col>
     </v-row>
 
@@ -44,8 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import ButtonDialog from '@/components/ButtonDialog.vue'
-import ListBook from '@/components/ListBook.vue'
+import DialogBook from '@/components/books/DialogBook.vue'
+import ListBook from '@/components/books/ListBook.vue'
 import { ref } from 'vue'
 
 const my_list = ref<
