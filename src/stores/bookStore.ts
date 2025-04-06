@@ -28,6 +28,19 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
+  async function editBook(book: Omit<Book, 'id'>) {
+    try {
+      const newBook = await bookService.editBook(book)
+      const index = books.value.findIndex((b) => b.public_id === newBook.public_id)
+      if (index !== -1) {
+        books.value[index] = newBook
+      }
+    } catch (err) {
+      console.error(err)
+      throw extractBackendError(err, 'Erro ao adicionar livro.')
+    }
+  }
+
   async function deleteBook(bookId: number) {
     try {
       await bookService.deleteBook(bookId)
@@ -42,6 +55,7 @@ export const useBookStore = defineStore('bookStore', () => {
     books,
     fetchBooks,
     addBook,
+    editBook,
     deleteBook,
   }
 })

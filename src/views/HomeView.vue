@@ -15,7 +15,11 @@
     <!-- Seção de ações -->
     <v-row justify="center" class="mb-6">
       <v-col cols="12" md="6" class="text-center">
-        <DialogBook @submitRegister="add_book" />
+        <DialogBook
+          v-model:visible="isDialogVisible"
+          :book="selectedBook"
+          @submitRegister="addBook"
+        />
       </v-col>
     </v-row>
 
@@ -28,6 +32,7 @@
             <span class="text-h6">Books List</span>
             <v-spacer></v-spacer>
             <v-btn icon="mdi-refresh" variant="text" @click="fetchBooks"> </v-btn>
+            <v-btn icon="mdi-plus" variant="text" @click="isDialogVisible = true"></v-btn>
           </v-card-title>
 
           <v-divider></v-divider>
@@ -36,7 +41,7 @@
             <v-card-text
               ><v-card-text>
                 <div v-if="bookStore.books.length">
-                  <ListBook :items="bookStore.books" />
+                  <ListBook :items="bookStore.books" @editBook="openBookDialog" />
                 </div>
                 <div v-else class="text-center text-grey py-6">
                   <v-icon size="40" class="mb-2" color="grey">mdi-book-open-variant</v-icon>
@@ -84,11 +89,17 @@ const fetchBooks = async () => {
   }
 }
 
-const add_book = async (book: Omit<Book, 'id'>) => {
+const addBook = async (book: Omit<Book, 'id'>) => {
   loading.value = true
   try {
-    await bookStore.addBook(book)
-    notification.showSuccess('Livro adicionado com sucesso!')
+    if (book.public_id) {
+      await bookStore.editBook(book)
+      notification.showSuccess('Livro atualizado com sucesso!')
+      return
+    } else {
+      await bookStore.addBook(book)
+      notification.showSuccess('Livro adicionado com sucesso!')
+    }
   } catch (err: any) {
     const parsed = extractBackendError(err)
     notification.showError(parsed.message)
@@ -96,36 +107,12 @@ const add_book = async (book: Omit<Book, 'id'>) => {
     loading.value = false
   }
 }
+
+const isDialogVisible = ref(false)
+const selectedBook = ref<Book | null>(null)
+
+const openBookDialog = (book: Book) => {
+  selectedBook.value = book
+  isDialogVisible.value = true
+}
 </script>
-
-<style scoped>
-.page-title {
-  color: #2e2e2e;
-  letter-spacing: 0.5px;
-}
-
-.subtitle {
-  color: #6c757d;
-  margin-top: 4px;
-}
-
-.book-card {
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: #fafafa;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.4s ease;
-}
-
-.fade-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>

@@ -1,8 +1,8 @@
 export interface Book {
-  id: number
+  public_id: string
   name: string
-  edition: number
-  isbn: number
-  publication_date: number
+  edition: string
+  isbn?: number
+  publication_date?: Date
   description?: string
 }
